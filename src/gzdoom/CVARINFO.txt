@@ -1,0 +1,1 @@
+server bool consolidate_check_ammo2 = true; //Check ammo2 by default. Otherwise, check ammo1

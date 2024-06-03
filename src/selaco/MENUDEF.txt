@@ -1,0 +1,7 @@
+AddOptionMenu "ModOptionsMenu"
+{
+    ModHeader "$CONSOLIDATED_MOD_NAME", "Sarge945", "$CONSOLIDATED_MOD_DESC", "SCBANNER" 
+    TooltipOption "$CONSOLIDATED_ENABLED", "$CONSOLIDATED_ENABLED_DESC", "", "consolidate_enabled", YesNo
+    TooltipOption "$CONSOLIDATED_MESSAGES", "$CONSOLIDATED_MESSAGES_DESC", "", "consolidate_messages", YesNo
+    TooltipOption "$CONSOLIDATED_AUTO", "$CONSOLIDATED_AUTO_DESC", "", "consolidate_auto", YesNo
+}

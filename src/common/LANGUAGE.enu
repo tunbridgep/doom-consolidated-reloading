@@ -1,0 +1,9 @@
+[enu default]
+
+CONSOLIDATED_AMMO = "Ammo Consolidated";
+
+CONSOLIDATED_MESSAGES = "Enable Message";
+CONSOLIDATED_MESSAGES_DESC = "Display a screen message when consolidating ammo";
+
+CONSOLIDATED_AUTO = "Auto Consolidate";
+CONSOLIDATED_AUTO_DESC = "Automatically unload unselected weapons when out of reserve ammo.";

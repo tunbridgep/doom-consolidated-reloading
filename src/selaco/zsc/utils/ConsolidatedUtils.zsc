@@ -1,0 +1,41 @@
+//Utilities to handle differences between Selaco and GZDoom
+class ConsolidatedUtils
+{
+    static SelacoWeapon GetWeaponFromInventory(Inventory weap)
+    {
+        return SelacoWeapon(weap);
+    }
+    
+    //With Solaco, we manage mods
+    //in-game using a mod manager.
+    //So we need to be able to enable/disable the mod
+    static bool ModEnabled()
+    {
+        return consolidate_enabled;
+    }
+
+    //Return which ammo slot we need to use
+    //SELACO always uses slot 1
+    static bool UseAmmoSlot2()
+    {
+        return false;
+    }
+
+    //Playing sounds doesn't work properly for some inexplicable reason
+    static void PlayConsolidateSound(Actor player)
+    {
+        //player.A_StartSound("misc/consolidate_ammo",CHAN_WEAPON,CHANF_UI|CHANF_OVERLAP);
+    }
+
+    static void DisplayConsolidateMessage(string message)
+    {
+        Console.MidPrint("PDA13FONT",message);
+    }
+    
+    //Luckily for us, Selaco provides a convenient MagazineSize variable
+    static int GetMagazineSize(Inventory inv, bool ammo2)
+    {
+        SelacoWeapon weap = GetWeaponFromInventory(inv);
+        return weap.magazineSize;
+    }
+}

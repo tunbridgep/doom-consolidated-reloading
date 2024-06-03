@@ -1,0 +1,94 @@
+//When we press the reload button, just consolidate all of our ammo
+class ConsolidatedHandler : StaticEventHandler
+{
+    override void WorldTick()
+    {
+
+        if (gamestate == 7) //TITLEMAP
+            return;
+
+        if (!ConsolidatedUtils.ModEnabled())
+            return;
+
+        //If auto-consolidate is on, do it once per second
+        if (consolidate_auto)
+        {
+            if (level.time % 35 == 0) //nested so we don't fallback to the reload button check
+                Consolidate(ConsolidatedUtils.UseAmmoSlot2());
+        }
+        //Otherwise, Check for reload button press
+        else if (players[consoleplayer].cmd.buttons & BT_RELOAD)
+        {
+            //Console.Printf("Attempting Consolidate - 2");
+            Consolidate(ConsolidatedUtils.UseAmmoSlot2());
+            ForceReload();
+        }
+    }
+
+    private void ForceReload()
+    {
+        let weap = players[consoleplayer].ReadyWeapon;
+
+        let state = weap.ResolveState("Reload");
+        if (state)
+            players[consoleplayer].setpsprite(PSP_WEAPON,state);
+    }
+
+    private bool Consolidate(bool ammo2)
+    {
+        let player = players[consoleplayer].mo;
+        let weap = players[consoleplayer].ReadyWeapon;
+
+        class<Ammo> reserveAmmoClass = ammo2? weap.AmmoType2 : weap.AmmoType1;
+        class<Ammo> clipAmmoClass = ammo2? weap.AmmoType1 : weap.AmmoType2;
+
+        int clipSize = ConsolidatedUtils.GetMagazineSize(weap,ammo2);
+
+        console.printf("clipsize: %d, ammoGive1: %d, ammoGive2: %d",clipSize,weap.AmmoGive1,weap.AmmoGive2);
+
+        bool usesAmmo = weap.AmmoType1 != null && weap.AmmoType2 != null;
+        bool outOfAmmo = !player.CheckInventory(reserveAmmoClass,clipSize);
+
+        if (usesAmmo && outOfAmmo)
+        {
+            //Console.Printf("Attempting ammo consolidation");
+
+            //Find any other weapon with the same ammo type
+            for (int i = 0; i < 10;i++)
+            {
+                for (int j = 0;j < players[consoleplayer].weapons.SlotSize(i);j++)
+                {
+                    let wclass = players[consoleplayer].weapons.GetWeapon(i,j);
+                    let slotweap = ConsolidatedUtils.GetWeaponFromInventory(player.FindInventory(wclass));
+
+                    if (slotweap && slotweap != weap)
+                    {
+                        class<Ammo> reserveAmmoClass2 = ammo2? slotweap.AmmoType2 : slotweap.AmmoType1;
+                        class<Ammo> clipAmmoClass2 = ammo2? slotweap.AmmoType1 : slotweap.AmmoType2;
+
+                        if (clipAmmoClass2 != null && reserveAmmoClass == reserveAmmoClass2)
+                        {
+                            //Console.Printf("Found a "..slotweap.getclassname().." with the same ammo type " .. reserveAmmoClass.GetClassName());
+
+                            //Consolidate the ammo
+                            int consolidateAmount = player.CountInv(clipAmmoClass2);
+                            if (consolidateAmount > 0)
+                            {
+                                player.GiveInventory(reserveAmmoClass,consolidateAmount);
+                                player.TakeInventory(clipAmmoClass2,consolidateAmount);
+                                
+                                let msgString = Stringtable.Localize("$CONSOLIDATED_AMMO");
+                                if (consolidate_messages)
+                                    ConsolidatedUtils.DisplayConsolidateMessage(msgString);
+                                ConsolidatedUtils.PlayConsolidateSound(player);
+
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+}
