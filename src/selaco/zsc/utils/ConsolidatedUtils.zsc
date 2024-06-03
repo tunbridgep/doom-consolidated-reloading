@@ -1,19 +1,9 @@
 //Utilities to handle differences between Selaco and GZDoom
-class ConsolidatedUtils
+class ConsolidatedUtils play
 {
     static SelacoWeapon GetWeaponFromInventory(Inventory weap)
     {
         return SelacoWeapon(weap);
-    }
-    
-    //With Solaco, we manage mods
-    //in-game using a mod manager.
-    //So we need to be able to enable/disable the mod
-    static bool ModEnabled()
-    {
-        //return consolidate_enabled;
-        //Actually, we can just disable auto-consolidate, and then it's essentially disabled.
-        return true;
     }
 
     //Return which ammo slot we need to use

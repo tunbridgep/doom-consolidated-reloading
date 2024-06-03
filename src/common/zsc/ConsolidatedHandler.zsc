@@ -4,7 +4,7 @@ class ConsolidatedHandler : StaticEventHandler
     //Check for reload button press
     override bool InputProcess (InputEvent e)
     {
-        if (Bindings.GetBinding(e.KeyScan) == "+reload" && ConsolidatedUtils.ModEnabled() && consolidate_auto) //TODO: Use something more reliable here, maybe GetAllKeysForCommand instead
+        if (Bindings.GetBinding(e.KeyScan) == "+reload" && consolidate_auto) //TODO: Use something more reliable here, maybe GetAllKeysForCommand instead
         {
             EventHandler.SendNetworkEvent("ConsolidateAmmo",1,1);
 
@@ -20,9 +20,6 @@ class ConsolidatedHandler : StaticEventHandler
     override void NetworkProcess (ConsoleEvent e) 
     {
         if (gamestate == 7) //TITLEMAP
-            return;
-
-        if (!ConsolidatedUtils.ModEnabled())
             return;
 
         if (e.Name == "ConsolidateAmmo")
@@ -111,7 +108,7 @@ class ConsolidatedHandler : StaticEventHandler
 
                             //Consolidate the ammo
                             //only consolidate enough to fill our mag
-                            int consolidateAmount = clipSize - currentAmmo;
+                            int consolidateAmount = clipSize - currentAmmo - reserveAmmo;
 
                             //console.printf("consolidate amount: %d (%d-%d)",consolidateAmount,clipSize,currentAmmo);
 

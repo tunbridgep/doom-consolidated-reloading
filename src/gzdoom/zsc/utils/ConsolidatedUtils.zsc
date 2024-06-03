@@ -1,16 +1,9 @@
 //Utilities to handle differences between Selaco and GZDoom
-class ConsolidatedUtils
+class ConsolidatedUtils play
 {
     static Weapon GetWeaponFromInventory(Inventory weap)
     {
         return Weapon(weap);
-    }
-
-    //With GZDoom, it's really easy to manage which mods
-    //are enabled using ZDL or whatever
-    static bool ModEnabled()
-    {
-        return true;
     }
 
     //Return which ammo slot we need to use
@@ -33,14 +26,13 @@ class ConsolidatedUtils
     //Try to determine the clip size
     //This is based on a heuristic and might be wrong, so we need to be able to disable it
     //This is a bit hacky, because GZDoom has no concept of magazines
-    //It assumes that you get a full clip from each weapon pickup, which is hacky
+    //It assumes that mods will always set their max ammo for their weapons correctly
     static int GetMagazineSize(Inventory inv, bool ammo2)
     {
         Weapon weap = GetWeaponFromInventory(inv);
-        int clipSize = ammo2 ? weap.AmmoGive2 : weap.AmmoGive1;
+        int clipSize = inv.owner.GetAmmoCapacity(ammo2 ? weap.AmmoType1 : weap.AmmoType2);
         if (clipSize < 1)
-            clipSize = 999999;
-        //console.printf("clipsize: %d, ammoGive1: %d, ammoGive2: %d",clipSize,weap.AmmoGive1,weap.AmmoGive2);
+            clipSize = 1;
         return clipSize;
     }
 }
