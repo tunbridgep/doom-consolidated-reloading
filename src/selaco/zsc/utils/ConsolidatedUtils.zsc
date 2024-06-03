@@ -26,7 +26,7 @@ class ConsolidatedUtils
     //Playing sounds doesn't work properly for some inexplicable reason
     static void PlayConsolidateSound(Actor player)
     {
-        player.A_StartSound("misc/consolidate_ammo",CHAN_WEAPON,CHANF_UI|CHANF_OVERLAP);
+        //player.A_StartSound("misc/consolidate_ammo",CHAN_WEAPON,CHANF_UI|CHANF_OVERLAP);
     }
 
     static void DisplayConsolidateMessage(string message)

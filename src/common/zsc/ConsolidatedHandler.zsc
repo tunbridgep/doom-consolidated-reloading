@@ -6,7 +6,7 @@ class ConsolidatedHandler : StaticEventHandler
     {
         if (Bindings.GetBinding(e.KeyScan) == "+reload" && ConsolidatedUtils.ModEnabled() && consolidate_auto) //TODO: Use something more reliable here, maybe GetAllKeysForCommand instead
         {
-            EventHandler.SendNetworkEvent("ConsolidateAmmo",1);
+            EventHandler.SendNetworkEvent("ConsolidateAmmo",1,1);
 
             //Swallow the event
             e = null;
@@ -78,10 +78,15 @@ class ConsolidatedHandler : StaticEventHandler
         if (respectClipSize)
             clipSize = ConsolidatedUtils.GetMagazineSize(weap,ammo2);
 
+        int currentAmmo = player.CountInv(clipAmmoClass.GetClassName());
+        int reserveAmmo = player.CountInv(reserveAmmoClass.GetClassName());
+
         bool usesAmmo = weap.AmmoType1 != null && weap.AmmoType2 != null;
         bool outOfAmmo = !player.CheckInventory(reserveAmmoClass,clipSize);
+        bool full = currentAmmo >= clipSize;
+        bool willBeFull = currentAmmo + reserveAmmo >= clipSize;
 
-        if (usesAmmo && outOfAmmo)
+        if (usesAmmo && outOfAmmo && !full && !willBeFull)
         {
             //Find any other weapon with the same ammo type
             for (int i = 0; i < 10;i++)
@@ -101,7 +106,14 @@ class ConsolidatedHandler : StaticEventHandler
                             //Console.Printf("Found a "..slotweap.getclassname().." with the same ammo type " .. reserveAmmoClass.GetClassName());
 
                             //Consolidate the ammo
-                            int consolidateAmount = player.CountInv(clipAmmoClass2);
+                            //only consolidate enough to fill our mag
+                            int consolidateAmount = clipSize - currentAmmo;
+
+                            console.printf("consolidate amount: %d (%d-%d)",consolidateAmount,clipSize,currentAmmo);
+
+                            if (consolidateAmount > player.CountInv(clipAmmoClass2))
+                                consolidateAmount = player.CountInv(clipAmmoClass2);
+
                             if (consolidateAmount > 0)
                             {
                                 player.GiveInventory(reserveAmmoClass,consolidateAmount);
