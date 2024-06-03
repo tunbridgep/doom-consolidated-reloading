@@ -1,40 +1,71 @@
 //When we press the reload button, just consolidate all of our ammo
 class ConsolidatedHandler : StaticEventHandler
 {
-    override void WorldTick()
+    //Check for reload button press
+    override bool InputProcess (InputEvent e)
     {
+        if (Bindings.GetBinding(e.KeyScan) == "+reload" && ConsolidatedUtils.ModEnabled() && consolidate_auto) //TODO: Use something more reliable here, maybe GetAllKeysForCommand instead
+        {
+            EventHandler.SendNetworkEvent("ConsolidateAmmo",1);
 
+            //Swallow the event
+            e = null;
+            return true;
+        }
+
+        return false;
+    }
+    
+    //Check for consolidate key
+    override void NetworkProcess (ConsoleEvent e) 
+    {
         if (gamestate == 7) //TITLEMAP
             return;
 
         if (!ConsolidatedUtils.ModEnabled())
             return;
 
-        //If auto-consolidate is on, do it once per second
-        if (consolidate_auto)
+        if (e.Name == "ConsolidateAmmo")
         {
-            if (level.time % 35 == 0) //nested so we don't fallback to the reload button check
-                Consolidate(ConsolidatedUtils.UseAmmoSlot2());
+            bool respectClip = e.args[1] > 0;
+            bool reload = e.args[0] > 0;
+
+            Consolidate(ConsolidatedUtils.UseAmmoSlot2(),respectClip);
+            
+            if (reload && CanReload())
+                ForceReload();
         }
-        //Otherwise, Check for reload button press
-        else if (players[consoleplayer].cmd.buttons & BT_RELOAD)
-        {
-            //Console.Printf("Attempting Consolidate - 2");
-            Consolidate(ConsolidatedUtils.UseAmmoSlot2());
-            ForceReload();
-        }
+    }
+
+    private bool CanReload()
+    {
+        return players[consoleplayer].WeaponState & WF_WEAPONRELOADOK;
     }
 
     private void ForceReload()
     {
         let weap = players[consoleplayer].ReadyWeapon;
+        let st = weap.ResolveState("Reload");
 
-        let state = weap.ResolveState("Reload");
-        if (state)
-            players[consoleplayer].setpsprite(PSP_WEAPON,state);
+        if (st)
+            players[consoleplayer].setpsprite(PSP_WEAPON,st);
+    }
+    
+    private bool Consolidate(bool ammo2, bool respectClipSize = true)
+    {
+        //Keep consolidating until we can't anymore
+        bool consolidated;
+        while (true)
+        {
+            if (DoConsolidate(ammo2,respectClipSize))
+                consolidated = true;
+            else
+                break;
+        }
+        return consolidated;
     }
 
-    private bool Consolidate(bool ammo2)
+    private bool DoConsolidate(bool ammo2, bool respectClipSize = true)
     {
         let player = players[consoleplayer].mo;
         let weap = players[consoleplayer].ReadyWeapon;
@@ -42,17 +73,16 @@ class ConsolidatedHandler : StaticEventHandler
         class<Ammo> reserveAmmoClass = ammo2? weap.AmmoType2 : weap.AmmoType1;
         class<Ammo> clipAmmoClass = ammo2? weap.AmmoType1 : weap.AmmoType2;
 
-        int clipSize = ConsolidatedUtils.GetMagazineSize(weap,ammo2);
-
-        console.printf("clipsize: %d, ammoGive1: %d, ammoGive2: %d",clipSize,weap.AmmoGive1,weap.AmmoGive2);
+        //don't consolidate unless we have less than a clip in reserve
+        int clipSize = 99999999;
+        if (respectClipSize)
+            clipSize = ConsolidatedUtils.GetMagazineSize(weap,ammo2);
 
         bool usesAmmo = weap.AmmoType1 != null && weap.AmmoType2 != null;
         bool outOfAmmo = !player.CheckInventory(reserveAmmoClass,clipSize);
 
         if (usesAmmo && outOfAmmo)
         {
-            //Console.Printf("Attempting ammo consolidation");
-
             //Find any other weapon with the same ammo type
             for (int i = 0; i < 10;i++)
             {

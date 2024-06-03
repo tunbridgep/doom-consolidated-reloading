@@ -11,7 +11,9 @@ class ConsolidatedUtils
     //So we need to be able to enable/disable the mod
     static bool ModEnabled()
     {
-        return consolidate_enabled;
+        //return consolidate_enabled;
+        //Actually, we can just disable auto-consolidate, and then it's essentially disabled.
+        return true;
     }
 
     //Return which ammo slot we need to use
@@ -24,7 +26,7 @@ class ConsolidatedUtils
     //Playing sounds doesn't work properly for some inexplicable reason
     static void PlayConsolidateSound(Actor player)
     {
-        //player.A_StartSound("misc/consolidate_ammo",CHAN_WEAPON,CHANF_UI|CHANF_OVERLAP);
+        player.A_StartSound("misc/consolidate_ammo",CHAN_WEAPON,CHANF_UI|CHANF_OVERLAP);
     }
 
     static void DisplayConsolidateMessage(string message)

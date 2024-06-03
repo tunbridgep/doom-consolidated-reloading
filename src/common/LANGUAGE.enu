@@ -2,8 +2,10 @@
 
 CONSOLIDATED_AMMO = "Ammo Consolidated";
 
-CONSOLIDATED_MESSAGES = "Enable Message";
-CONSOLIDATED_MESSAGES_DESC = "Display a screen message when consolidating ammo";
+CONSOLIDATED_MESSAGES = "Display Message";
+CONSOLIDATED_MESSAGES_DESC = "Display a message on the screen when consolidating ammo";
 
 CONSOLIDATED_AUTO = "Auto Consolidate";
-CONSOLIDATED_AUTO_DESC = "Automatically unload unselected weapons when out of reserve ammo.";
+CONSOLIDATED_AUTO_DESC = "Automatically Consolidate all ammo from weapons that use the same ammo type when reloading. Otherwise, consolidation will only happen when using the Consolidate key.";
+
+CONSOLIDATED_KEY = "Consolidate Ammo";

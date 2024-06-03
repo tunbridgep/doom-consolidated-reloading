@@ -1,6 +1,6 @@
 //Selaco Mod Information
 CONSOLIDATED_MOD_NAME = "Simple Ammo Consolidation";
-CONSOLIDATED_MOD_DESC = "Automatically Consolidate all ammo from weapons that use the same ammo type. When reloading while empty, all ammo will be consolidated";
+CONSOLIDATED_MOD_DESC = "Automatically Consolidate all ammo from weapons that use the same ammo type when reloading.";
 CONSOLIDATED_ENABLED = "Mod Enabled";
 CONSOLIDATED_ENABLED_DESC = "Enable or Disable the Simple Ammo Consolidation Mod";
 

@@ -39,7 +39,8 @@ class ConsolidatedUtils
         Weapon weap = GetWeaponFromInventory(inv);
         int clipSize = ammo2 ? weap.AmmoGive2 : weap.AmmoGive1;
         if (clipSize < 1)
-            clipSize = 1;
+            clipSize = 999999;
+        //console.printf("clipsize: %d, ammoGive1: %d, ammoGive2: %d",clipSize,weap.AmmoGive1,weap.AmmoGive2);
         return clipSize;
     }
 }

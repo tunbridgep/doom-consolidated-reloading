@@ -1,0 +1,3 @@
+alias consolidate_key "netevent ConsolidateAmmo 0 0"
+defaultbind K consolidate_key
+
