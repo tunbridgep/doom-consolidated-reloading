@@ -27,7 +27,7 @@ class ConsolidatedHandler : StaticEventHandler
             bool respectClip = e.args[1] > 0;
             bool reload = e.args[0] > 0;
 
-            Consolidate(ConsolidatedUtils.UseAmmoSlot2(),respectClip);
+            Consolidate(ConsolidatedUtils.UseAmmoSlot2(),respectClip,!reload);
             
             if (reload && CanReload())
                 ForceReload();
@@ -48,7 +48,7 @@ class ConsolidatedHandler : StaticEventHandler
             players[consoleplayer].setpsprite(PSP_WEAPON,st);
     }
     
-    private bool Consolidate(bool ammo2, bool respectClipSize = true)
+    private bool Consolidate(bool ammo2, bool respectClipSize = true, bool msg = false)
     {
         //Keep consolidating until we can't anymore
         bool consolidated;
@@ -59,6 +59,16 @@ class ConsolidatedHandler : StaticEventHandler
             else
                 break;
         }
+
+        if (consolidated)
+        {
+            let msgString = Stringtable.Localize("$CONSOLIDATED_AMMO");
+
+            if (consolidate_messages == 2 || (consolidate_messages == 1 && msg))
+                ConsolidatedUtils.DisplayConsolidateMessage(msgString);
+            ConsolidatedUtils.PlayConsolidateSound(players[consoleplayer].mo);
+        }
+
         return consolidated;
     }
 
@@ -119,12 +129,6 @@ class ConsolidatedHandler : StaticEventHandler
                             {
                                 player.GiveInventory(reserveAmmoClass,consolidateAmount);
                                 player.TakeInventory(clipAmmoClass2,consolidateAmount);
-                                
-                                let msgString = Stringtable.Localize("$CONSOLIDATED_AMMO");
-                                if (consolidate_messages)
-                                    ConsolidatedUtils.DisplayConsolidateMessage(msgString);
-                                ConsolidatedUtils.PlayConsolidateSound(player);
-
                                 return true;
                             }
                         }

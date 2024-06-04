@@ -1,3 +1,3 @@
-nosave user bool consolidate_messages = true; //Show consolidation message
+nosave user int consolidate_messages = 1; //Show consolidation message. 0 = never, 1 = only when using the button, 2 = always
 nosave user bool consolidate_auto = true; //Auto-consolidate when we reach 0 reserve ammo
 

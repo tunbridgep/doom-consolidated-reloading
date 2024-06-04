@@ -1,0 +1,8 @@
+//Consolidation Message Options
+OptionValue ConsolidatedMessageStyle
+{
+    0, "$CONSOLIDATED_MESSAGES_0"
+    1, "$CONSOLIDATED_MESSAGES_1"
+    2, "$CONSOLIDATED_MESSAGES_2"
+}
+

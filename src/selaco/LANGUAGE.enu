@@ -4,3 +4,6 @@ CONSOLIDATED_MOD_DESC = "Automatically Consolidate all ammo from weapons that us
 CONSOLIDATED_ENABLED = "Mod Enabled";
 CONSOLIDATED_ENABLED_DESC = "Enable or Disable the Simple Ammo Consolidation Mod";
 
+//Options
+CONSOLIDATED_AUTO_DESC = "Automatically Consolidate all ammo from weapons that use the same ammo type when reloading. Otherwise, consolidation will only happen when using the Consolidate key.\n\n\c[omniblue](Default: Yes)";
+CONSOLIDATED_MESSAGES_DESC = "Display a message on the screen when consolidating ammo.\n\n\c[omniblue]Never: \c[white]Never display messages.\n\n\c[omniblue]Manual Only: \c[white]Display messages when consolidating using the consolidate key.\n\n\c[omniblue]Always: \c[white]Show messages when using the consolidate key and when auto-consolidating while reloading.\n\n\c[omniblue](Default: Manual Only)";

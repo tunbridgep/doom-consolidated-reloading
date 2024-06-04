@@ -21,7 +21,7 @@ class ConsolidatedUtils play
 
     static void DisplayConsolidateMessage(string message)
     {
-        Console.MidPrint("PDA13FONT",message);
+        Console.MidPrint("SMALLFONT","\c[white]"..message,true);
     }
     
     //Luckily for us, Selaco provides a convenient MagazineSize variable
