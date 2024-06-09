@@ -14,6 +14,7 @@ class ConsolidatedUtils play
     }
 
     //Playing sounds doesn't work properly for some inexplicable reason
+    //OKAY, turns out it was due to 7zip compression. Selaco doesn't support pk7
     static void PlayConsolidateSound(Actor player)
     {
         player.A_StartSound("misc/consolidate_ammo",CHAN_WEAPON,CHANF_UI|CHANF_OVERLAP);
