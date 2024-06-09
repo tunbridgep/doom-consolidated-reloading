@@ -42,6 +42,10 @@ class ConsolidatedHandler : StaticEventHandler
     private void ForceReload()
     {
         let weap = players[consoleplayer].ReadyWeapon;
+
+        if (!weap)
+            return;
+
         let st = weap.ResolveState("Reload");
 
         if (st)
@@ -76,6 +80,9 @@ class ConsolidatedHandler : StaticEventHandler
     {
         let player = players[consoleplayer].mo;
         let weap = players[consoleplayer].ReadyWeapon;
+
+        if (!weap)
+            return false;
 
         class<Ammo> reserveAmmoClass = ammo2? weap.AmmoType2 : weap.AmmoType1;
         class<Ammo> clipAmmoClass = ammo2? weap.AmmoType1 : weap.AmmoType2;

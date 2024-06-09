@@ -10,6 +10,6 @@
 		{"type":"zscript", "settings":{ "dir":"zsc", "output":"zscript.txt"} }
 	],
 	"outputs": [
-		{"type":"zip", "settings":{ "cmd":"7z -mx1 a","path":"./rel","name":"SimpleConsolidatedAmmo - Selaco 1.0.pk3", "split":"false"} }
+		{"type":"zip", "settings":{ "cmd":"7z -tzip -mx1 a","path":"./rel","name":"SimpleConsolidatedAmmo - Selaco 1.0.pk3", "split":"false"} }
 	]
 }
