@@ -1,6 +1,13 @@
 //Utilities to handle differences between Selaco and GZDoom
 class ConsolidatedUtils play
 {
+    //Always false for Selaco
+    //For GZDoom, control with cvar
+    ui static bool OverrideReload()
+    {
+        return consolidate_reload_fix;
+    }
+
     static Weapon GetWeaponFromInventory(Inventory weap)
     {
         return Weapon(weap);

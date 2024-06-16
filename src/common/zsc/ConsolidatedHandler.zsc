@@ -4,13 +4,17 @@ class ConsolidatedHandler : StaticEventHandler
     //Check for reload button press
     override bool InputProcess (InputEvent e)
     {
-        if (Bindings.GetBinding(e.KeyScan) == "+reload" && consolidate_auto) //TODO: Use something more reliable here, maybe GetAllKeysForCommand instead
+        bool binding = Bindings.GetBinding(e.KeyScan) == "+reload" || Bindings.GetBinding(e.KeyScan) == "+usereload";
+        if (binding && consolidate_auto) //TODO: Use something more reliable here, maybe GetAllKeysForCommand instead
         {
             EventHandler.SendNetworkEvent("ConsolidateAmmo",1,1);
 
-            //Swallow the event
-            e = null;
-            return true;
+            //Swallow the event to prevent animation issues in certain GZDoom mods like Brutal Doom
+            if (ConsolidatedUtils.OverrideReload())
+            {
+                e = null;
+                return true;
+            }
         }
 
         return false;

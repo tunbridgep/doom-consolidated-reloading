@@ -1,0 +1,28 @@
+AddOptionMenu "OptionsMenu"
+{
+    Submenu "$CONSOLIDATED_MOD_NAME", "SimpleConsolidatedReloading"
+}
+
+OptionMenu "SimpleConsolidatedReloading"
+{
+    Title "$SLOT_SLOTS_MAIN_DESC"
+    StaticText ""
+    Option "$CONSOLIDATED_MESSAGES", "consolidate_messages", ConsolidatedMessageStyle
+    StaticText "$CONSOLIDATED_MESSAGES_DESC"
+    StaticText ""
+    Control "$CONSOLIDATED_KEY", "consolidate_key"
+    Option "$CONSOLIDATED_AUTO", "consolidate_auto", YesNo
+    StaticText "$CONSOLIDATED_AUTO_DESC"
+    StaticText "$CONSOLIDATED_AUTO_DESC2"
+    StaticText ""
+    Option "$CONSOLIDATED_AMMO2", "consolidate_check_ammo2", YesNo
+    StaticText "$CONSOLIDATED_AMMO2_DESC"
+    StaticText "$CONSOLIDATED_AMMO2_DESC2"
+    StaticText ""
+    Option "$CONSOLIDATED_RELOAD_FIX", "consolidate_reload_fix", YesNo
+    StaticText "$CONSOLIDATED_RELOAD_FIX_DESC"
+    StaticText "$CONSOLIDATED_RELOAD_FIX_DESC2"
+    StaticText "$CONSOLIDATED_RELOAD_FIX_DESC3"
+    StaticText "$CONSOLIDATED_RELOAD_FIX_DESC4", 1
+    StaticText "$CONSOLIDATED_RELOAD_FIX_DESC5", 1
+}

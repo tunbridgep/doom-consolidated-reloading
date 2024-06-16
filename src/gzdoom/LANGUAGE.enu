@@ -1,0 +1,13 @@
+CONSOLIDATED_AMMO2 = "Use Ammo2 Property";
+CONSOLIDATED_AMMO2_DESC = "When checking reserve ammo, use the Ammo2 property";
+CONSOLIDATED_AMMO2_DESC2 = "Try setting this on or off if the mod is not working";
+
+CONSOLIDATED_AUTO_DESC = "Automatically Consolidate all ammo from weapons that use the same ammo type when reloading.";
+CONSOLIDATED_AUTO_DESC2 = "Otherwise, consolidation will only happen when using the Consolidate key.";
+
+CONSOLIDATED_RELOAD_FIX = "Reload Fix";
+CONSOLIDATED_RELOAD_FIX_DESC = "When pressing the reload button, blocks reloading";
+CONSOLIDATED_RELOAD_FIX_DESC2 = "until after ammo has been consolidated. Designed to fix cases where";
+CONSOLIDATED_RELOAD_FIX_DESC3 = "mods play special animations when pressing the reload key, such as Brutal Doom v22";
+CONSOLIDATED_RELOAD_FIX_DESC4 = "Do not use this unless you are experiencing reload problems with a mod.";
+CONSOLIDATED_RELOAD_FIX_DESC5 = "It may cause issues with some mods.";

@@ -1,1 +1,2 @@
 server bool consolidate_check_ammo2 = true; //Check ammo2 by default. Otherwise, check ammo1
+server bool consolidate_reload_fix = false; //Swallow reload presses and then reload manually after consolidating, to prevent animations.
